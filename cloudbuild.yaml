@@ -1,0 +1,10 @@
+# Decrypt the file containing the key
+steps:
+- name: gcr.io/cloud-builders/bazel
+  args: ['build', '//...']
+
+# Push the image.
+images: [
+]
+timeout: 1200s
+
