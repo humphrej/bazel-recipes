@@ -6,12 +6,12 @@ load("@io_bazel_rules_docker//container:container.bzl", "container_image")
 load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
 
 download_pkgs(
-  name = "postgres_pkgs",
-  image_tar = "@ubuntu2004//image",
-  packages = [
-      "postgresql",
-      #"openjdk-11-jdk"
-  ]
+    name = "postgres_pkgs",
+    image_tar = "@ubuntu2004//image",
+    packages = [
+        "postgresql",
+        #"openjdk-11-jdk"
+    ],
 )
 
 install_pkgs(
@@ -38,8 +38,7 @@ container_image(
     files = [
         "env.sh",
         "workload.sh",
-        "entrypoint.sh"
+        "entrypoint.sh",
     ],
-    entrypoint = [ "/entrypoint.sh" ]
+    entrypoint = ["/entrypoint.sh"],
 )
-
