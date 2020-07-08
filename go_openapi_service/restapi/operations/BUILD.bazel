@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["todo_list_api.go"],
+    importpath = "humphrej/go_openapi_service/restapi/operations",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//go_openapi_service/restapi/operations/todos:go_default_library",
+        "@com_github_go_openapi_errors//:go_default_library",
+        "@com_github_go_openapi_loads//:go_default_library",
+        "@com_github_go_openapi_runtime//:go_default_library",
+        "@com_github_go_openapi_runtime//middleware:go_default_library",
+        "@com_github_go_openapi_runtime//security:go_default_library",
+        "@com_github_go_openapi_spec//:go_default_library",
+        "@com_github_go_openapi_strfmt//:go_default_library",
+        "@com_github_go_openapi_swag//:go_default_library",
+    ],
+)

@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_docker//go:image.bzl", "go_image")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["main.go"],
+    importpath = "humphrej/go_openapi_service/cmd/todo-list-server",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//go_openapi_service/restapi:go_default_library",
+        "//go_openapi_service/restapi/operations:go_default_library",
+        "@com_github_go_openapi_loads//:go_default_library",
+        "@com_github_jessevdk_go_flags//:go_default_library",
+    ],
+)
+
+go_image(
+    name = "todo-list-server",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)

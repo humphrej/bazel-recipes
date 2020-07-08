@@ -25,7 +25,7 @@ To test using go tool:
 
 To update pinned dependencies in bazel:
 
-    bazel run :gazelle -- update-repos -from_file=$PWD/go.mod -to_macro=go_dependencies.bzl%go_repositories -prune
+    bazel run :gazelle -- update-repos -from_file=$PWD/go.mod -to_macro=go_dependencies.bzl%go_repositories 
 
 To run using Bazel:
 
@@ -36,7 +36,9 @@ To deploy to gcp:
     gcloud functions deploy NotifyBuild --trigger-topic cloud-builds --runtime go113 --set-env-vars=SENDGRID_API_KEY=<insert>,EMAIL_FROM=bob@foo.com,EMAIL_TO=alice@foo.com
 
 #### Solution Limitations:
-When dependencies are changed in go.mod, then the bazel dependencies must be regenerated using the gazelle command above.
+* When dependencies are changed in go.mod, then the bazel dependencies must be regenerated using the gazelle command above.
+* Dependencies that are no longer referenced from go.mod can be removed by appending -prune to the gazelle update-repos command
+* go_dependencies.bzl is shared between all go modules in the build
 
 #### Consequences:
 * Positive

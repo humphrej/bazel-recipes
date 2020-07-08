@@ -1,6 +1,5 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-
 # rules_docker section ------------------------------------
 http_archive(
     name = "io_bazel_rules_docker",
@@ -67,7 +66,7 @@ http_archive(
     ],
 )
 
-load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
+load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
 
 gazelle_dependencies()
 
@@ -77,5 +76,3 @@ load("//:go_dependencies.bzl", "go_repositories")
 go_repositories()
 
 # rules_go section ------------------------------------
-
-
