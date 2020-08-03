@@ -14,6 +14,10 @@ The code from this example is taken directly from https://goswagger.io/tutorial/
 ### Solution: 
 Use Bazel to run the cloud function tests as part of a regular build.
 
+To regenerate the server:
+
+    swagger generate server -A todo-list -f ./swagger.yml
+
 To update pinned dependencies in bazel:
 
     bazel run :gazelle -- update-repos -from_file=$PWD/go.mod -to_macro=go_dependencies.bzl%go_repositories 
