@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package com.jumemo.trdb.v1;
+
+option java_multiple_files = true;
+option java_outer_classname = "TRDBProto";
+option java_package = "com.jumemo.trdb.v1";
+option go_package = "turps/api";
+
+import "google/protobuf/timestamp.proto";
+
+service Turps {
+  rpc UpsertChangeList(UpsertChangeListRequest) returns (UpsertChangeListResponse) {
+  }
+  rpc GetChangeList(GetChangeListRequest) returns (GetChangeListResponse) {
+  }
+  rpc UpsertTestResult(UpsertTestRunRequest) returns (UpsertTestRunResponse) {
+  }
+}
+
+message UpsertChangeListRequest {
+  ChangeList change_list = 1;
+}
+message UpsertChangeListResponse {
+  ChangeList change_list = 1;
+}
+
+message GetChangeListRequest {
+  string change_list_id = 1;
+}
+message GetChangeListResponse {
+  ChangeList change_list = 1;
+}
+
+message UpsertTestRunRequest {
+  TestRun test_run = 1;
+}
+message UpsertTestRunResponse {
+  TestRun test_run = 1;
+}
+
+message ChangeList {
+  string change_list_id = 1;
+  google.protobuf.Timestamp tz = 2;
+  repeated string test_ids = 3;
+  repeated TestRun test_run = 4;
+}
+
+message TestRun {
+  string id = 1;
+  string change_list_id = 2;
+  string output_url = 3;
+  google.protobuf.Timestamp tz = 4;
+  map<string, TestResult> test_result = 5;
+}
+
+message TestResult {
+  uint64 num_runs = 1;
+  uint64 num_fails = 2;
+}
+
+
