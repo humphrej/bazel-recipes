@@ -23,13 +23,3 @@ go_test(
         "//turps/internal/postgres/testing:go_default_library",
     ],
 )
-
-go_test(
-    name = "go_default_test",
-    srcs = ["storage_test.go"],
-    embed = [":go_default_library"],
-    deps = [
-        "//turps/internal:go_default_library",
-        "//turps/internal/postgres/testing:go_default_library",
-    ],
-)

@@ -9,5 +9,7 @@ export DATABASE_URL
 echo Running postgres data access layer tests
 try ./go_postgres_storage_test
 
+export TURPS_BINARY
+
 echo Running turps acceptance tests
 try ./go_acceptance_test
