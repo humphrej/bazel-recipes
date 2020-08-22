@@ -315,9 +315,9 @@ def go_repositories():
     )
     go_repository(
         name = "com_github_pkg_errors",
-        importpath = "github.com/internal/errors",
-        sum = "h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=",
-        version = "v0.9.1",
+        importpath = "github.com/pkg/errors",
+        sum = "h1:iURUrRGxPUNPdy5/HRSm+Yj6okJ6UtLINN0Q9M4+h3I=",
+        version = "v0.8.1",
     )
     go_repository(
         name = "com_github_pmezard_go_difflib",
@@ -762,4 +762,10 @@ def go_repositories():
         importpath = "go.uber.org/zap",
         sum = "h1:ORx85nbTijNz8ljznvCMR1ZBIPKFn3jQrag10X2AsuM=",
         version = "v1.10.0",
+    )
+    go_repository(
+        name = "com_github_leanovate_gopter",
+        importpath = "github.com/leanovate/gopter",
+        sum = "h1:eFPtJ3aa5zLfbxGROSNY75T9Dume60CWBAqoWQ3h/ig=",
+        version = "v0.2.8",
     )

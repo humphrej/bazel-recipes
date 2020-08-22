@@ -13,11 +13,21 @@ go_library(
 )
 
 go_test(
+    name = "go_postgres_storage_test",
+    srcs = ["storage_test.go"],
+    embed = [":go_default_library"],
+    tags = ["manual"],
+    visibility = ["//turps:__subpackages__"],
+    deps = [
+        "//turps/internal:go_default_library",
+        "//turps/internal/postgres/testing:go_default_library",
+    ],
+)
+
+go_test(
     name = "go_default_test",
     srcs = ["storage_test.go"],
     embed = [":go_default_library"],
-    visibility = ["//visibility:public"],
-    tags = ["manual"],
     deps = [
         "//turps/internal:go_default_library",
         "//turps/internal/postgres/testing:go_default_library",

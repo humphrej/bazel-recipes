@@ -77,6 +77,22 @@ func NewTestResultMapInternal(protoResultMap map[string]*pb.TestResult) map[stri
 	return to
 }
 
+func NewTestRunInternal(run *pb.TestRun) (*internal.TestRun, error) {
+
+	tz, err := ptypes.Timestamp(run.Tz)
+	if err != nil {
+		return nil, err
+	}
+
+	return &internal.TestRun{
+		ChangeListId: internal.ChangeListId(run.ChangeListId),
+		BuildId:      internal.BuildId(run.Id),
+		TestResults:  NewTestResultMapInternal(run.TestResult),
+		OutputUrl:    run.OutputUrl,
+		Timestamp:    tz,
+	}, nil
+}
+
 func NewTestResultInternal(result *pb.TestResult) internal.TestResult {
 	return internal.TestResult{Runs: result.NumRuns, Fails: result.NumFails}
 }

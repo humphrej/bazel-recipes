@@ -3,8 +3,10 @@ package grpc
 import (
 	"context"
 	"github.com/golang/protobuf/ptypes"
+	"github.com/golang/protobuf/ptypes/timestamp"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"time"
 	"turps/internal"
 
 	pb "turps/api"
@@ -73,18 +75,18 @@ func (s *Server) GetChangeList(ctx context.Context, in *pb.GetChangeListRequest)
 }
 
 func (s *Server) UpsertTestResult(ctx context.Context, in *pb.UpsertTestRunRequest) (*pb.UpsertTestRunResponse, error) {
-
-	tz, err := ptypes.Timestamp(in.TestRun.Tz)
+	internal, err := NewTestRunInternal(in.TestRun)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument,
-			"Timestamp cannot be converted %s", err)
+			"cannot understand test run %s", err)
 	}
-	s.ChangeListRepository.SaveTestRun(ctx, &internal.TestRun{
-		ChangeListId: internal.ChangeListId(in.TestRun.ChangeListId),
-		BuildId:      internal.BuildId(in.TestRun.Id),
-		TestResults:  NewTestResultMapInternal(in.TestRun.TestResult),
-		OutputUrl:    in.TestRun.OutputUrl,
-		Timestamp:    tz,
-	})
+	s.ChangeListRepository.SaveTestRun(ctx, internal)
+
 	return &pb.UpsertTestRunResponse{TestRun: in.TestRun}, nil
+}
+
+func TruncatedNow() *timestamp.Timestamp {
+	tz := time.Now().Truncate(time.Microsecond)
+	pbTz, _ := ptypes.TimestampProto(tz)
+	return pbTz
 }

@@ -2,9 +2,6 @@ syntax = "proto3";
 
 package com.jumemo.trdb.v1;
 
-option java_multiple_files = true;
-option java_outer_classname = "TRDBProto";
-option java_package = "com.jumemo.trdb.v1";
 option go_package = "turps/api";
 
 import "google/protobuf/timestamp.proto";
