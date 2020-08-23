@@ -4,14 +4,15 @@ import (
 	"reflect"
 	"runtime"
 	"testing"
+	pb "turps/api"
 )
 
 func newCLIDSL(t *testing.T) DSL {
-	return &cliWorld{Testing: t}
+	return &cliWorld{Testing: t, changesMap: map[string]*pb.ChangeList{}, testRunsMap: map[string]*pb.TestRun{}}
 }
 
 func newAPIDSL(t *testing.T) DSL {
-	return &apiWorld{Testing: t}
+	return &apiWorld{Testing: t, changesMap: map[string]*pb.ChangeList{}, testRunsMap: map[string]*pb.TestRun{}}
 }
 
 var (

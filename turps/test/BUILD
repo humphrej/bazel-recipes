@@ -29,7 +29,10 @@ go_test(
     embed = [":go_default_library"],
     tags = [
         "external",
-        "manual"
+#        "manual"
+    ],
+    data = [
+        "//turps/cmd/client:turps"
     ],
     visibility = ["//turps:__subpackages__"],
 )

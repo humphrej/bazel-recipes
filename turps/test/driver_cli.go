@@ -14,13 +14,24 @@ import (
 )
 
 type cliWorld struct {
-	Testing *testing.T
+	Testing           *testing.T
+	changesMap        map[string]*pb.ChangeList
+	testRunsMap       map[string]*pb.TestRun
+	lastFetchedChange *pb.ChangeList
 }
 
 func (w *cliWorld) given_a_turps_server() {
 }
 
-func (w *cliWorld) given_a_change(c *pb.ChangeList) {
+func (w *cliWorld) given_a_change(ref string,c *pb.ChangeList) {
+	w.changesMap[ref] = c
+}
+func (w *cliWorld) given_a_test_run(ref string,r *pb.TestRun) {
+	w.testRunsMap[ref] = r
+}
+
+func (w *cliWorld) when_the_change_is_saved(ref string) {
+	c := w.changesMap[ref]
 
 	name, err := writePbMessage(c)
 	if err != nil {
@@ -42,16 +53,10 @@ func (w *cliWorld) given_a_change(c *pb.ChangeList) {
 	}
 
 }
-func (w *cliWorld) when_tests_are_run(runs []*pb.TestRun) {
+func (w *cliWorld) when_the_test_run_is_saved(ref string) {
+	run := w.testRunsMap[ref]
 
-	for _, run := range runs {
-		invokeTestRun(w, run)
-	}
-}
-
-func invokeTestRun(w *cliWorld, testRun *pb.TestRun) {
-
-	name, err := writePbMessage(testRun)
+	name, err := writePbMessage(run)
 	if err != nil {
 		w.Testing.Errorf("error generating testdata %v", err)
 	}
@@ -70,9 +75,11 @@ func invokeTestRun(w *cliWorld, testRun *pb.TestRun) {
 		w.Testing.Fatalf("unexpected stderr %v", string(createResult.stderr))
 	}
 }
-func (w *cliWorld) then_the_change_should_be(expected *pb.ChangeList) {
 
-	getResult, err := runTurps([]byte{}, "get", expected.ChangeListId)
+//func (w *cliWorld) then_the_change_should_be(expected *pb.ChangeList) {
+func (w *cliWorld) when_the_change_is_fetched(changeListId string) {
+
+	getResult, err := runTurps([]byte{}, "get", changeListId)
 	if err != nil {
 		w.Testing.Fatalf("error running turps %v", err)
 	}
@@ -92,11 +99,16 @@ func (w *cliWorld) then_the_change_should_be(expected *pb.ChangeList) {
 		w.Testing.Fatalf("Cannot unmarshal fetched changelist %v", err)
 	}
 
-	if !proto.Equal(&fetchedChangeList, expected) {
-		w.Testing.Fatalf("actual:\n%v\nexpected:\n%v", fetchedChangeList, expected)
-	}
+	w.lastFetchedChange = &fetchedChangeList
+
 }
 
+func (w *cliWorld) then_the_change_should_be(expected *pb.ChangeList) {
+
+	if !proto.Equal(expected, w.lastFetchedChange) {
+		w.Testing.Fatalf("Value fetched does not match value stored.\nexpected=%s\n  actual=%s", expected, w.lastFetchedChange)
+	}
+}
 func writePbMessage(m gproto.Message) (string, error) {
 
 	bs, err := protojson.Marshal(m)
