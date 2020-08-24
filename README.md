@@ -1,7 +1,7 @@
 # bazel-recipes
 
-This repo is a collection of recipes that I have found useful in using bazel as the main component of a continuous 
-integration build.
+This repo is a collection of recipes that I have found useful in using [bazel](https://bazel.build/) as the main 
+component of a continuous integration build.
 
 Taking on the ideas from the [Continuous Delivery book](https://continuousdelivery.com/), a “commit stage” pipeline
 runs before multiple “acceptance test” pipelines.  In the commit stage, _all_ artifacts are built - this includes
@@ -24,3 +24,7 @@ The recipes are:
 | [go_openapi_service](/go_openapi_service/README.md) | Building and testing a OpenAPI 3 service using golang |
 | [integration_test_with_services](/integration_test_with_services/README.md) | Building a container that includes dependencies (in this case PostgreSQL) |
 | [turps](/turps/README.md)  | Building a golang grpc service, with e2e acceptance tests in a container |
+
+Other resources:
+
+* https://github.com/google/startup-os (bit out of date now)
