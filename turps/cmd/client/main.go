@@ -118,14 +118,11 @@ func GetCommand(args []string) error {
 	if err != nil {
 		return err
 	}
-	//fmt.Printf("args %v %d\n", getCmd.Args(), getCmd.NArg())
 	if getCmd.NArg() != 1 {
 		fmt.Fprintf(os.Stderr, "Need to specify change_list_id")
 		os.Exit(1)
 	}
 	changeListId := getCmd.Arg(0)
-	//fmt.Println("subcommand 'get'")
-	//fmt.Println("  server:", *getServer)
 
 	// Set up a connection to the server.
 	conn, err := grpc.Dial(*getServer, grpc.WithInsecure())
@@ -142,12 +139,6 @@ func GetCommand(args []string) error {
 	if err != nil {
 		return err
 	}
-	//bs, err := protojson.Marshal(r.ChangeList)
-	//if err != nil {
-	//	return err
-	//}
-	//
-	//fmt.Println(string(bs))
 
 	fmt.Println(protojson.Format(r.ChangeList))
 

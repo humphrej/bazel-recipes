@@ -61,7 +61,9 @@ func (s *Server) GetChangeList(ctx context.Context, in *pb.GetChangeListRequest)
 			"ChangeListId is mandatory")
 	}
 	changeList, err := s.ChangeListRepository.ChangeList(ctx, internal.ChangeListId(in.ChangeListId))
-	if err != nil {
+	if changeList == nil && err == nil {
+		return nil, status.Errorf(codes.NotFound, "change list not found %s", in.ChangeListId)
+	} else if err != nil {
 		return nil, status.Errorf(codes.Internal,
 			"Unable to fetch change list %s", err)
 	}

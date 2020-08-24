@@ -16,6 +16,7 @@ type DSL interface {
 	when_the_test_run_is_saved(ref string)
 	when_the_change_is_fetched(changeListId string)
 	then_the_change_should_be(changeList *pb.ChangeList)
+	then_an_error(msg string)
 }
 
 // TruncatedNow truncates the current time to microsecond resolution, so that it matches the PostgreSQL TIMESTAMP datatype.
@@ -23,6 +24,12 @@ func TruncatedNow() *timestamp.Timestamp {
 	tz := time.Now().Truncate(time.Microsecond)
 	pbTz, _ := ptypes.TimestampProto(tz)
 	return pbTz
+}
+
+func ShouldNotFetchImaginaryChangeList(dsl DSL) {
+	dsl.given_a_turps_server()
+	dsl.when_the_change_is_fetched("THIS IS NOT A CL ID")
+	dsl.then_an_error("change list not found")
 }
 
 func ShouldCreateAndFetchChangeList(dsl DSL) {
@@ -126,7 +133,7 @@ func ShouldUpdateChangeListWithDoubleTestRun(dsl DSL) {
 			"test-1": {NumFails: 1, NumRuns: 10},
 		},
 	})
-	dsl.given_a_test_run("run-C",&pb.TestRun{
+	dsl.given_a_test_run("run-C", &pb.TestRun{
 		Id:           "run-2",
 		ChangeListId: clID,
 		OutputUrl:    "run-2",
@@ -172,12 +179,12 @@ func ShouldUpsertTestRun(dsl DSL) {
 	changeListTz := TruncatedNow()
 
 	dsl.given_a_turps_server()
-	dsl.given_a_change("change-A",&pb.ChangeList{
+	dsl.given_a_change("change-A", &pb.ChangeList{
 		ChangeListId: clID,
 		Tz:           changeListTz,
 	})
 	runTz1 := TruncatedNow()
-	dsl.given_a_test_run("run-B",&pb.TestRun{
+	dsl.given_a_test_run("run-B", &pb.TestRun{
 		Id:           "run-1",
 		ChangeListId: clID,
 		OutputUrl:    "run-1",
@@ -187,7 +194,7 @@ func ShouldUpsertTestRun(dsl DSL) {
 		},
 	})
 	runTz2 := TruncatedNow()
-	dsl.given_a_test_run("run-C",&pb.TestRun{
+	dsl.given_a_test_run("run-C", &pb.TestRun{
 		Id:           "run-1",
 		ChangeListId: clID,
 		OutputUrl:    "run-1",

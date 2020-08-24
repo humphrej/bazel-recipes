@@ -3,7 +3,8 @@ Turps
 ### Introduction
 This recipe demonstrates
 * building a simple grpc service in golang to store test results.
-* building acceptance test suite that is built into a container with dependencies
+* building an e2e acceptance test suite for both API and CLI.  The acceptance tests are packaged into a container with
+all dependencies to run in the CI/CD "acceptance test stage".
 
 ### Context:
 * Using the ideas from the Continuous Delivery book, a deployment pipeline should be split into parts:
@@ -22,13 +23,14 @@ This recipe demonstrates
     bazel build //...
 #### How to run the tests
 1. Load the acceptance tests into the local docker:
-
+```shell script
     (MacOS) bazel run --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 //turps/test/image:test_image
     (Linux) bazel run //turps/test/image:test_image
-
+```
 1. Run the acceptance tests:
-    
+```shell script
     docker run -ti bazel/turps/test/image:test_image
+```    
     
 #### How to update the BUILD files from the golang source
 gazelle (see [rules_go](https://github.com/bazelbuild/rules_go)) is used to update the BUILD files with dependencies
@@ -36,24 +38,26 @@ based on their usage in the go code. This needs to be run every time any new dep
 Any dependencies must also be defined in go_dependencies.bzl (see
 [How to update project dependencies](#How-to-update-project-dependencies))
 
-From project root:
+Note that the generated BUILD files have been modified slightly so always review the gazelle changes using git diff.
 
+From project root:
+```shell script
     bazel run :gazelle update -- turps
+```
     
 #### How to update project dependencies
 gazelle (see [rules_go](https://github.com/bazelbuild/rules_go)) is used pin external golang dependency version based
 on the contents of the go.mod.
 
 From project root:
-
+```shell script
     bazel run :gazelle -- update-repos -from_file=$PWD/turps/go.mod -to_macro=go_dependencies.bzl%go_repositories
-
+```
 #### Solution Limitations:
+* None
 
 #### Consequences:
 * Positive
-
+    * Totally reproducible e2e test environment 
 * Negative
-    * Slow to build
-    * gazelle isn't great in a monorepo project
-    * Goland sucks a bit
+    * None

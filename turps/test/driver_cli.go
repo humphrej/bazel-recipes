@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"strings"
 	"testing"
 	pb "turps/api"
 )
@@ -18,15 +19,16 @@ type cliWorld struct {
 	changesMap        map[string]*pb.ChangeList
 	testRunsMap       map[string]*pb.TestRun
 	lastFetchedChange *pb.ChangeList
+	lastError         string
 }
 
 func (w *cliWorld) given_a_turps_server() {
 }
 
-func (w *cliWorld) given_a_change(ref string,c *pb.ChangeList) {
+func (w *cliWorld) given_a_change(ref string, c *pb.ChangeList) {
 	w.changesMap[ref] = c
 }
-func (w *cliWorld) given_a_test_run(ref string,r *pb.TestRun) {
+func (w *cliWorld) given_a_test_run(ref string, r *pb.TestRun) {
 	w.testRunsMap[ref] = r
 }
 
@@ -89,7 +91,9 @@ func (w *cliWorld) when_the_change_is_fetched(changeListId string) {
 	}
 
 	if len(getResult.stderr) > 0 {
-		w.Testing.Fatalf("unexpected stderr %v", string(getResult.stderr))
+		w.lastError = string(getResult.stderr)
+		return
+		//w.Testing.Fatalf("unexpected stderr %v", string(getResult.stderr))
 	}
 
 	var fetchedChangeList pb.ChangeList
@@ -100,7 +104,6 @@ func (w *cliWorld) when_the_change_is_fetched(changeListId string) {
 	}
 
 	w.lastFetchedChange = &fetchedChangeList
-
 }
 
 func (w *cliWorld) then_the_change_should_be(expected *pb.ChangeList) {
@@ -109,6 +112,12 @@ func (w *cliWorld) then_the_change_should_be(expected *pb.ChangeList) {
 		w.Testing.Fatalf("Value fetched does not match value stored.\nexpected=%s\n  actual=%s", expected, w.lastFetchedChange)
 	}
 }
+func (w *cliWorld) then_an_error(matchingString string) {
+	if !strings.Contains(w.lastError, matchingString) {
+		w.Testing.Fatalf("error message does not match error:%s match:%s", w.lastError, matchingString)
+	}
+}
+
 func writePbMessage(m gproto.Message) (string, error) {
 
 	bs, err := protojson.Marshal(m)

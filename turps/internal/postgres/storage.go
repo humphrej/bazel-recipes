@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/golang/glog"
 	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/jackc/pgx/v4"
 	"time"
 	"turps/internal"
 )
@@ -12,7 +13,7 @@ type ChangeListStorage struct {
 	Pool *pgxpool.Pool
 }
 
-// ChangeList performs a full query by change_list_id
+// ChangeList performs a full query by change_list_id. Returns nil for not found
 func (pg ChangeListStorage) ChangeList(ctx context.Context, id internal.ChangeListId) (*internal.ChangeList, error) {
 	var err error
 	var timestamp time.Time
@@ -20,7 +21,9 @@ func (pg ChangeListStorage) ChangeList(ctx context.Context, id internal.ChangeLi
 	changeListRow := pg.Pool.QueryRow(ctx,
 		"SELECT id,timestamp, test_ids FROM change_list where id=$1", id)
 	err = changeListRow.Scan(&id, &timestamp, &testIds)
-	if err != nil {
+	if err == pgx.ErrNoRows {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 

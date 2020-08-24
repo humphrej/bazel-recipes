@@ -17,6 +17,7 @@ func newAPIDSL(t *testing.T) DSL {
 
 var (
 	allTests = []func(DSL){
+		ShouldNotFetchImaginaryChangeList,
 		ShouldCreateAndFetchChangeList,
 		ShouldUpdateOnDoubleUpsert,
 		ShouldUpdateChangeListWithSingleTestRun,

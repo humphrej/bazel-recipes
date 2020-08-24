@@ -8,6 +8,7 @@ go_library(
     deps = [
         "//turps/internal:go_default_library",
         "@com_github_golang_glog//:go_default_library",
+        "@com_github_jackc_pgx_v4//:go_default_library",
         "@com_github_jackc_pgx_v4//pgxpool:go_default_library",
     ],
 )

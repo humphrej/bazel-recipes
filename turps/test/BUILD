@@ -26,13 +26,14 @@ go_library(
 go_test(
     name = "go_acceptance_test",
     srcs = ["e2e_test.go"],
+    data = [
+        "//turps/cmd/client:turps",
+    ],
     embed = [":go_default_library"],
     tags = [
         "external",
-#        "manual"
-    ],
-    data = [
-        "//turps/cmd/client:turps"
+        "manual"
     ],
     visibility = ["//turps:__subpackages__"],
 )
+

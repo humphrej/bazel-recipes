@@ -3,6 +3,7 @@ package test
 import (
 	"context"
 	"google.golang.org/protobuf/proto"
+	"strings"
 	"testing"
 	pb "turps/api"
 	"turps/internal/grpc"
@@ -17,6 +18,7 @@ type apiWorld struct {
 	changesMap        map[string]*pb.ChangeList
 	testRunsMap       map[string]*pb.TestRun
 	lastFetchedChange *pb.ChangeList
+	lastError         error
 }
 
 func (w *apiWorld) given_a_turps_server() {
@@ -63,13 +65,21 @@ func (w *apiWorld) when_the_change_is_fetched(changeListId string) {
 		ChangeListId: changeListId,
 	})
 	if err != nil {
-		w.Testing.Fatalf("Failed reading change %v", err)
+		w.lastError = err
 	}
-	w.lastFetchedChange = fetchResponse.ChangeList
+	if fetchResponse != nil {
+		w.lastFetchedChange = fetchResponse.ChangeList
+	}
 }
 
 func (w *apiWorld) then_the_change_should_be(expected *pb.ChangeList) {
 	if !proto.Equal(expected, w.lastFetchedChange) {
 		w.Testing.Fatalf("Value fetched does not match value stored.\nexpected=%s\n  actual=%s", expected, w.lastFetchedChange)
+	}
+}
+
+func (w *apiWorld) then_an_error(matchingString string) {
+	if !strings.Contains(w.lastError.Error(), matchingString) {
+		w.Testing.Fatalf("error does not match error:%s match:%s", w.lastError, matchingString)
 	}
 }
