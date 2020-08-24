@@ -4,10 +4,9 @@ This repo is a collection of recipes that I have found useful in using bazel as 
 integration build.
 
 Taking on the ideas from the [Continuous Delivery book](https://continuousdelivery.com/), a “commit stage” pipeline
-runs before multiple “acceptance test” pipelines.  In the commit stage, all _all_ artifacts are built (to containers
-where possible) - this includes services, and all acceptance tests.  All acceptance tests should be baked into
-containers with all their required dependencies so that running them in the "acceptance test” pipeline is pure
-scheduling.
+runs before multiple “acceptance test” pipelines.  In the commit stage, _all_ artifacts are built - this includes
+services, and all acceptance tests.  The acceptance tests should be baked into containers with all their required
+dependencies so that running them in the "acceptance test” pipeline is pure scheduling.
 
 Bazel is a great fit for the commit stage pipeline in a cloud-native deployment:
 * it builds containers natively (“rules_docker”)
