@@ -12,4 +12,3 @@ create database mytestdb;
 create user mytestuser with password '$TEST_PASSWORD';
 _eof
 "
-

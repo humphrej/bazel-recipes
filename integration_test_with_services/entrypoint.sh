@@ -2,8 +2,7 @@
 
 . env.sh
 
-for prestart in /etc/prestart.d/*
-do
+for prestart in /etc/prestart.d/*; do
   echo Running $prestart
   . $prestart
   ret=$?
@@ -14,4 +13,3 @@ do
 done
 
 . workload.sh
-

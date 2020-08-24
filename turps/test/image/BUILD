@@ -14,22 +14,22 @@ pkg_tar(
 
 container_image(
     name = "test_image",
+    testonly = True,
     base = "//integration_test_with_services:postgres_bare_image",
     directory = "/",
+    entrypoint = ["/entrypoint.sh"],
+    files = [
+        "entrypoint.sh",
+        "env.sh",
+        "workload.sh",
+        "//turps/cmd/client:turps",
+        "//turps/cmd/turpsd",
+        "//turps/internal/postgres:go_postgres_storage_test",
+        "//turps/test:go_acceptance_test",
+    ],
     tars = [
         ":golang_migrate_tar",
         ":prestart_scripts_tar",
         "//turps/db:db_migrations_tar",
     ],
-    files = [
-        "env.sh",
-        "workload.sh",
-        "entrypoint.sh",
-        "//turps/internal/postgres:go_postgres_storage_test",
-        "//turps/test:go_acceptance_test",
-        "//turps/cmd/client:turps",
-        "//turps/cmd/turpsd:turpsd",
-    ],
-    testonly = True,
-    entrypoint = ["/entrypoint.sh"],
 )

@@ -10,4 +10,3 @@ create database turps;
 create user turps with password '$TEST_PASSWORD';
 _eof
 "
-

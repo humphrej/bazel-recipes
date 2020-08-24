@@ -7,34 +7,20 @@ option go_package = "turps/api";
 import "google/protobuf/timestamp.proto";
 
 service Turps {
-  rpc UpsertChangeList(UpsertChangeListRequest) returns (UpsertChangeListResponse) {
-  }
-  rpc GetChangeList(GetChangeListRequest) returns (GetChangeListResponse) {
-  }
-  rpc UpsertTestResult(UpsertTestRunRequest) returns (UpsertTestRunResponse) {
-  }
+  rpc UpsertChangeList(UpsertChangeListRequest)
+      returns (UpsertChangeListResponse) {}
+  rpc GetChangeList(GetChangeListRequest) returns (GetChangeListResponse) {}
+  rpc UpsertTestResult(UpsertTestRunRequest) returns (UpsertTestRunResponse) {}
 }
 
-message UpsertChangeListRequest {
-  ChangeList change_list = 1;
-}
-message UpsertChangeListResponse {
-  ChangeList change_list = 1;
-}
+message UpsertChangeListRequest { ChangeList change_list = 1; }
+message UpsertChangeListResponse { ChangeList change_list = 1; }
 
-message GetChangeListRequest {
-  string change_list_id = 1;
-}
-message GetChangeListResponse {
-  ChangeList change_list = 1;
-}
+message GetChangeListRequest { string change_list_id = 1; }
+message GetChangeListResponse { ChangeList change_list = 1; }
 
-message UpsertTestRunRequest {
-  TestRun test_run = 1;
-}
-message UpsertTestRunResponse {
-  TestRun test_run = 1;
-}
+message UpsertTestRunRequest { TestRun test_run = 1; }
+message UpsertTestRunResponse { TestRun test_run = 1; }
 
 message ChangeList {
   string change_list_id = 1;
@@ -55,5 +41,3 @@ message TestResult {
   uint64 num_runs = 1;
   uint64 num_fails = 2;
 }
-
-

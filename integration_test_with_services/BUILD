@@ -32,13 +32,13 @@ container_image(
     name = "postgresql_test_image",
     base = ":postgres_bare_image",
     directory = "/",
+    entrypoint = ["/entrypoint.sh"],
+    files = [
+        "entrypoint.sh",
+        "env.sh",
+        "workload.sh",
+    ],
     tars = [
         ":prestart_scripts_tar",
     ],
-    files = [
-        "env.sh",
-        "workload.sh",
-        "entrypoint.sh",
-    ],
-    entrypoint = ["/entrypoint.sh"],
 )

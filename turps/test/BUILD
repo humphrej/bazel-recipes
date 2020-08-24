@@ -32,8 +32,7 @@ go_test(
     embed = [":go_default_library"],
     tags = [
         "external",
-        "manual"
+        "manual",
     ],
     visibility = ["//turps:__subpackages__"],
 )
-
