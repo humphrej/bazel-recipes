@@ -14,7 +14,7 @@ Bazel is a great fit for the commit stage pipeline in a cloud-native deployment:
 * it is polyglot/can build anything (by using/defining the appropriate rule: java, c++, python, golang, docker, dhall,
  clojure)
 * the pipelne complexity is in the bazel setup, not in custom bash scripts or CI tool config. This also has the
- desirable consequence that all developers can test the build without CI.
+ desirable consequence that all developers can test the build using just bazel.
 * it is fast
 
 The recipes are:
