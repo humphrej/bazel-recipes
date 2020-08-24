@@ -1,7 +1,7 @@
 Go OpenAPI Service
 ------------------
 ### Introduction
-This recipe demonstrates how to build a simple REST service inside a container using **both** Bazel and the go tool
+This recipe demonstrates how to build a simple REST service inside a container using **both** Bazel and the "go" tool
 from the same sources.
 
 The code from this example is taken directly from https://goswagger.io/tutorial/todo-list.html

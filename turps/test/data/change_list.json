@@ -1,0 +1,21 @@
+{
+  "change_list_id": "change-list-1",
+  "tz": "2020-01-01T10:00:20.021Z",
+  "test_ids": [
+    "test-1"
+  ],
+  "test_run": [
+    {
+      "id": "run-1",
+      "change_list_id": "change-list-1",
+      "output_url": "",
+      "tz": "2020-01-01T11:00:00.000Z",
+      "test_result": {
+        "test1": {
+          "num_fails": 1,
+          "num_runs": 1
+        }
+      }
+    }
+  ]
+}
