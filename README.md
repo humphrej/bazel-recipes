@@ -16,8 +16,7 @@ Bazel is a great fit for the commit stage pipeline in a cloud-native deployment:
  desirable consequence that all developers can test the build using just bazel.
 * it is fast
 
-The recipes are:
-
+## Recipe List
 | Recipe                         | Description |
 |--------------------------------|-------------|
 | [gcp_cloud_function](/gcp_cloud_function/README.md) | Building and testing a GCP cloud function |
@@ -25,6 +24,12 @@ The recipes are:
 | [integration_test_with_services](/integration_test_with_services/README.md) | Building a container that includes dependencies (in this case PostgreSQL) |
 | [turps](/turps/README.md)  | Building a golang grpc service, with e2e acceptance tests in a container |
 
-Other resources:
+## Motivation
+The motivation for these recipes is that there is a shortage of small + public bazel examples.  This has a few consequences:
+* reproducing issues requires new examples to be built from scratch every time
+* people trying to adopt bazel have to work from first principles not from working solutions.
 
+More recipes will be added over time.
+
+## Other resources
 * https://github.com/google/startup-os (bit out of date now)
