@@ -3,8 +3,8 @@ package postgres
 import (
 	"context"
 	"github.com/golang/glog"
-	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v4/pgxpool"
 	"time"
 	"turps/internal"
 )
