@@ -1,10 +1,7 @@
 # Decrypt the file containing the key
 steps:
-- name: gcr.io/cloud-marketplace-containers/google/bazel
-  args: ['build', '//...']
-
+  - name: gcr.io/cloud-marketplace-containers/google/bazel
+    args: ['build', '//...']
 # Push the image.
-images: [
-]
+images: []
 timeout: 1200s
-
