@@ -17,12 +17,14 @@ Bazel is a great fit for the commit stage pipeline in a cloud-native deployment:
 * it is fast
 
 ## Recipe List
-| Recipe                         | Description |
-|--------------------------------|-------------|
+| Recipe                                              | Description |
+|-----------------------------------------------------|-------------|
 | [gcp_cloud_function](/gcp_cloud_function/README.md) | Building and testing a GCP cloud function |
 | [go_openapi_service](/go_openapi_service/README.md) | Building and testing a OpenAPI 3 service using golang |
 | [integration_test_with_services](/integration_test_with_services/README.md) | Building a container that includes dependencies (in this case PostgreSQL) |
 | [turps](/turps/README.md)  | Building a golang grpc service, with e2e acceptance tests in a container |
+| [java_in_container](/java_in_container/README.md)  | Building a java application in a container |
+| [clojure_in_container](/clojure_in_container/README.md)  | Building a clojure application in a container |
 
 ## Motivation
 The motivation for these recipes is that there is a shortage of small + public bazel examples.  This has a few consequences:

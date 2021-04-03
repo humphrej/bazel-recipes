@@ -36,6 +36,12 @@ load(
     "@io_bazel_rules_docker//container:container.bzl",
     "container_pull",
 )
+load(
+    "@io_bazel_rules_docker//java:image.bzl",
+    _java_image_repos = "repositories",
+)
+
+_java_image_repos()
 
 container_pull(
     name = "ubuntu2004",
@@ -151,3 +157,22 @@ http_archive(
     urls = ["https://github.com/golang-migrate/migrate/releases/download/v4.12.2/migrate.linux-amd64.tar.gz"],
 )
 # golang-migrate section ------------------------------------
+
+# rules_clojure section ------------------------------------
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    name = "rules_clojure",
+    sha256 = "c841fbf94af331f0f8f02de788ca9981d7c73a10cec798d3be0dd4f79d1d627d",
+    strip_prefix = "rules_clojure-c044cb8608a2c3180cbfee89e66bbeb604afb146",
+    urls = ["https://github.com/simuons/rules_clojure/archive/c044cb8608a2c3180cbfee89e66bbeb604afb146.tar.gz"],
+)
+
+load("@rules_clojure//:repositories.bzl", "rules_clojure_dependencies", "rules_clojure_toolchains")
+
+rules_clojure_dependencies()
+
+rules_clojure_toolchains()
+
+# rules_clojure section ------------------------------------
