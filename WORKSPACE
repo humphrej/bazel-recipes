@@ -171,7 +171,7 @@ rules_clojure_toolchains()
 
 # rules_clojure section ------------------------------------
 
-load("//:junit-in-container/junit5.bzl", "make_deps")
+load("//:junit_in_container/junit5.bzl", "make_deps")
 
 JUNIT_DEPS_ = make_deps()
 

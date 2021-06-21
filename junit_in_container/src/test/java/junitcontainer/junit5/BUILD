@@ -2,8 +2,8 @@ java_library(
     name = "junit5container_library",
     srcs = glob(["*.java"]),
     deps = [
-        "//junit-in-container/src/main/java/junitcontainer:junit_library",
-        "//junit-in-container/src/test/java/junitcontainer:junitcontainer_test_library",
+        "//junit_in_container/src/main/java/junitcontainer:junit_library",
+        "//junit_in_container/src/test/java/junitcontainer:junitcontainer_test_library",
         "@maven//:com_google_truth_truth",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_junit_jupiter_junit_jupiter_engine",
@@ -15,7 +15,7 @@ java_library(
     ],
 )
 
-load("//:junit-in-container/junit5.bzl", "java_junit5_test")
+load("//:junit_in_container/junit5.bzl", "java_junit5_test")
 
 # Uses java_junit_test to create a test target
 java_junit5_test(
@@ -25,7 +25,7 @@ java_junit5_test(
     test_package = "junit5container",
     runtime_deps = [
         ":junit5container_library",
-        "//junit-in-container/tools/bazeljunit5/src/main/java/com/flexport/bazeljunit5",
+        "//junit_in_container/tools/bazeljunit5/src/main/java/com/flexport/bazeljunit5",
     ],
 )
 
@@ -41,8 +41,8 @@ java_test(
     use_testrunner = False,
     runtime_deps = [
         ":junit5container_library",
-        "//junit-in-container/src/main/java/junitcontainer:junit_library",
-        "//junit-in-container/tools/bazeljunit5/src/main/java/com/flexport/bazeljunit5",
+        "//junit_in_container/src/main/java/junitcontainer:junit_library",
+        "//junit_in_container/tools/bazeljunit5/src/main/java/com/flexport/bazeljunit5",
         "@maven//:com_google_truth_truth",
         "@maven//:org_apiguardian_apiguardian_api",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
@@ -85,8 +85,8 @@ java_image(
     main_class = "com.flexport.bazeljunit5.BazelJUnit5ConsoleLauncher",
     runtime_deps = [
         ":junit5container_library",
-        "//junit-in-container/src/main/java/junitcontainer:junit_library",
-        "//junit-in-container/tools/bazeljunit5/src/main/java/com/flexport/bazeljunit5",
+        "//junit_in_container/src/main/java/junitcontainer:junit_library",
+        "//junit_in_container/tools/bazeljunit5/src/main/java/com/flexport/bazeljunit5",
         "@maven//:com_google_truth_truth",
         "@maven//:org_apiguardian_apiguardian_api",
         "@maven//:org_junit_jupiter_junit_jupiter_api",

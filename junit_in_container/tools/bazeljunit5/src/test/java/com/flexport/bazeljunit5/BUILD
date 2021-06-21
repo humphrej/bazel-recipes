@@ -1,4 +1,4 @@
-load("//:junit-in-container/junit5.bzl", "java_junit5_test")
+load("//:junit_in_container/junit5.bzl", "java_junit5_test")
 
 filegroup(
     name = "java_test_files",
@@ -15,7 +15,7 @@ java_junit5_test(
     test_package = "com.flexport.bazeljunit5",
     deps = [
         # Internal dependencies
-        "//junit-in-container/tools/bazeljunit5/src/main/java/com/flexport/bazeljunit5",
+        "//junit_in_container/tools/bazeljunit5/src/main/java/com/flexport/bazeljunit5",
 
         # External dependencies
         "@maven//:com_google_truth_truth",

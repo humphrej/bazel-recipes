@@ -2,8 +2,8 @@ java_library(
     name = "junit4container_library",
     srcs = glob(["*.java"]),
     deps = [
-        "//junit-in-container/src/main/java/junitcontainer:junit_library",
-        "//junit-in-container/src/test/java/junitcontainer:junitcontainer_test_library",
+        "//junit_in_container/src/main/java/junitcontainer:junit_library",
+        "//junit_in_container/src/test/java/junitcontainer:junitcontainer_test_library",
         "@maven//:ant_ant_junit",
         "@maven//:com_google_truth_truth",
         "@maven//:junit_junit",
@@ -41,7 +41,7 @@ java_image(
     main_class = "com.flexport.bazeljunit5.BazelJUnit5ConsoleLauncher",
     runtime_deps = [
         ":junit4container_library",
-        "//junit-in-container/tools/bazeljunit5/src/main/java/com/flexport/bazeljunit5",
+        "//junit_in_container/tools/bazeljunit5/src/main/java/com/flexport/bazeljunit5",
         "@maven//:org_apiguardian_apiguardian_api",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_junit_jupiter_junit_jupiter_params",
