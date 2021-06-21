@@ -31,7 +31,7 @@ def _format_maven_coordinates_dep_name(group_id, artifact_id, version):
     return "%s:%s:%s" % (group_id, artifact_id, version)
 
 JUNIT_JUPITER_VERSION = "5.7.2"
-JUNIT_PLATFORM_VERSION = "1.6.2"
+JUNIT_PLATFORM_VERSION = "1.7.2"
 
 def make_deps():
     JUNIT_JUPITER_DEPS = [
