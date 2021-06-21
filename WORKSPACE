@@ -1,3 +1,5 @@
+workspace(name = "bazel-recipes")
+
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 
 # rules_docker section ------------------------------------
@@ -133,15 +135,7 @@ load("@rules_proto_grpc//:repositories.bzl", "bazel_gazelle", "io_bazel_rules_go
 
 io_bazel_rules_go()
 
-#load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
-#go_rules_dependencies()
-
-#go_register_toolchains()
-
 bazel_gazelle()
-
-#load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
-#gazelle_dependencies()
 
 load("@rules_proto_grpc//go:repositories.bzl", rules_proto_grpc_go_repos = "go_repos")
 
@@ -176,3 +170,48 @@ rules_clojure_dependencies()
 rules_clojure_toolchains()
 
 # rules_clojure section ------------------------------------
+
+load("//:junit-in-container/junit5.bzl", "make_deps")
+
+JUNIT_DEPS_ = make_deps()
+
+# rules_jvm_external section ------------------------------------
+RULES_JVM_EXTERNAL_TAG = "4.0"
+
+RULES_JVM_EXTERNAL_SHA = "31701ad93dbfe544d597dbe62c9a1fdd76d81d8a9150c2bf1ecf928ecdf97169"
+
+http_archive(
+    name = "rules_jvm_external",
+    sha256 = RULES_JVM_EXTERNAL_SHA,
+    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
+    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG,
+)
+
+load("@rules_jvm_external//:defs.bzl", "maven_install")
+
+JUNIT_DEPS = JUNIT_DEPS_["jupiter"] + JUNIT_DEPS_["platform"] + JUNIT_DEPS_["vintage"] + JUNIT_DEPS_["extras"]
+
+maven_install(
+    artifacts =
+        JUNIT_DEPS + [
+            "ant:ant-junit:1.6.5",
+            "com.google.guava:guava:jar:30.1.1-jre",
+            "com.google.truth:truth:1.1.3",
+            "junit:junit:4.12",
+            "org.apache.ant:ant:1.10.10",
+        ],
+    fail_on_missing_checksum = False,
+    fetch_sources = True,
+    maven_install_json = "@bazel-recipes//third_party:maven_install.json",
+    repositories = [
+        "https://maven.google.com",
+        "https://repo1.maven.org/maven2",
+    ],
+    version_conflict_policy = "pinned",
+)
+
+load("@maven//:defs.bzl", "pinned_maven_install")
+
+pinned_maven_install()
+
+# rules_jvm_external section ------------------------------------
