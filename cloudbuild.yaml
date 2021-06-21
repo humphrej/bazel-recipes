@@ -5,3 +5,5 @@ steps:
 # Push the image.
 images: []
 timeout: 1200s
+options:
+  machineType: 'N1_HIGHCPU_8'
