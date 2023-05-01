@@ -154,20 +154,18 @@ http_archive(
 
 # rules_clojure section ------------------------------------
 
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+#RULES_CLOJURE_SHA = "0a2b6b06802263e5ce7f0e903e667ae4c103c6fc"
+RULES_CLOJURE_SHA = "bad7ead30e3426425d4ae44d974a2bfa868d61e8"
+http_archive(name = "rules_clojure",
+             strip_prefix = "rules_clojure-%s" % RULES_CLOJURE_SHA,
+             sha256 = "a8245b81226cd70a54eae1048b83986b3168a9127930a18f7ac00868385b1bb3",
+             url = "https://github.com/griffinbank/rules_clojure/archive/%s.zip" % RULES_CLOJURE_SHA)
 
-http_archive(
-    name = "rules_clojure",
-    sha256 = "c841fbf94af331f0f8f02de788ca9981d7c73a10cec798d3be0dd4f79d1d627d",
-    strip_prefix = "rules_clojure-c044cb8608a2c3180cbfee89e66bbeb604afb146",
-    urls = ["https://github.com/simuons/rules_clojure/archive/c044cb8608a2c3180cbfee89e66bbeb604afb146.tar.gz"],
-)
+load("@rules_clojure//:repositories.bzl", "rules_clojure_deps")
+rules_clojure_deps()
 
-load("@rules_clojure//:repositories.bzl", "rules_clojure_dependencies", "rules_clojure_toolchains")
-
-rules_clojure_dependencies()
-
-rules_clojure_toolchains()
+load("@rules_clojure//:setup.bzl", "rules_clojure_setup")
+rules_clojure_setup()
 
 # rules_clojure section ------------------------------------
 
@@ -188,17 +186,41 @@ http_archive(
 )
 
 load("@rules_jvm_external//:defs.bzl", "maven_install")
+load("@rules_jvm_external//:specs.bzl", "maven")
 
 JUNIT_DEPS = JUNIT_DEPS_["jupiter"] + JUNIT_DEPS_["platform"] + JUNIT_DEPS_["vintage"] + JUNIT_DEPS_["extras"]
 
 maven_install(
     artifacts =
         JUNIT_DEPS + [
-            "ant:ant-junit:1.6.5",
-            "com.google.guava:guava:jar:30.1.1-jre",
-            "com.google.truth:truth:1.1.3",
-            "junit:junit:4.12",
-            "org.apache.ant:ant:1.10.10",
+          maven.artifact(
+              group = "org.clojure",
+              artifact = "clojure",
+              version = "1.11.1",
+              exclusions = [
+                  "org.clojure:spec.alpha",
+                  "org.clojure:core.specs.alpha"
+              ]
+          ),
+          maven.artifact(
+              group = "org.clojure",
+              artifact = "spec.alpha",
+              version = "0.3.218",
+              exclusions = ["org.clojure:clojure"]
+            ),
+          maven.artifact(
+              group = "org.clojure",
+              artifact = "core.specs.alpha",
+              version = "0.2.62",
+              exclusions = [
+                  "org.clojure:clojure",
+                  "org.clojure:spec.alpha"
+            ]),
+          "ant:ant-junit:1.6.5",
+          "com.google.guava:guava:jar:30.1.1-jre",
+          "com.google.truth:truth:1.1.3",
+          "junit:junit:4.12",
+          "org.apache.ant:ant:1.10.10",
         ],
     fail_on_missing_checksum = False,
     fetch_sources = True,
